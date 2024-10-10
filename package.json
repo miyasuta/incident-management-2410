@@ -47,6 +47,11 @@
               "roles": [
                 "support"
               ]
+            },
+            "erin": {  
+              "roles": [ 
+                "support"
+              ] 
             }
           }
         }
@@ -56,7 +61,10 @@
         "auth": "xsuaa",
         "multitenancy": true
       },
-      "html5-repo": true
+      "html5-repo": true,
+      "[local-multitenancy]": {
+        "multitenancy": true
+      }
     },
     "sql": {
       "native_hana_associations": false

@@ -29,7 +29,17 @@ modules:
 - name: incident-management-2410-app-deployer
   type: com.sap.application.content
   path: .
+  parameters:
+    config:
+      destinations:
+      - forwardAuthToken: true
+        name: incident-management-2410-srv-api
+        url: ~{srv-api/srv-url}
+      - name: ui5
+        url: https://ui5.sap.com
   requires:
+  - name: srv-api
+  - name: incident-management-2410-auth
   - name: incident-management-2410-html5-repo-host
     parameters:
       content-target: true
@@ -54,19 +64,27 @@ modules:
     parameters:
       service-key:
         name: incident-management-2410-auth-key
+  - name: incident-management-2410-html5-repo-runtime
+    parameters:
+      service-key:
+        name: incident-management-2410-html5-repo-runtime-key
   parameters:
     content:
-      instance:
+      subaccount:
         destinations:
-        - Name: incidents_incident_management_2410_html5_repo_host
-          ServiceInstanceName: incident-management-2410-html5-repo-host
-          ServiceKeyName: incident-management-2410-html5-repo-host-key
-          sap.cloud.service: incidents
-        - Authentication: OAuth2UserTokenExchange
-          Name: incidents_incident_management_2410_auth
-          ServiceInstanceName: incident-management-2410-auth
-          ServiceKeyName: incident-management-2410-auth-key
-          sap.cloud.service: incidents
+          - Name: incident-management_cdm
+            ServiceInstanceName: incident-management-2410-html5-repo-runtime
+            ServiceKeyName: incident-management-2410-html5-repo-runtime-key
+            URL: https://html5-apps-repo-rt.cfapps.us10.hana.ondemand.com/applications/cdm/incidents
+        # - Name: incidents_incident_management_2410_html5_repo_host
+        #   ServiceInstanceName: incident-management-2410-html5-repo-host
+        #   ServiceKeyName: incident-management-2410-html5-repo-host-key
+        #   sap.cloud.service: incidents
+        # - Authentication: OAuth2UserTokenExchange
+        #   Name: incidents_incident_management_2410_auth
+        #   ServiceInstanceName: incident-management-2410-auth
+        #   ServiceKeyName: incident-management-2410-auth-key
+        #   sap.cloud.service: incidents
         existing_destinations_policy: ignore
   build-parameters:
     no-source: true
@@ -91,6 +109,11 @@ resources:
   parameters:
     service: html5-apps-repo
     service-plan: app-host
+- name: incident-management-2410-html5-repo-runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime   
 - name: incident-management-2410-auth
   type: org.cloudfoundry.managed-service
   parameters:
@@ -104,29 +127,35 @@ resources:
   type: org.cloudfoundry.managed-service
   parameters:
     config:
-      HTML5Runtime_enabled: true
+      # HTML5Runtime_enabled: true
       init_data:
-        instance:
+        subaccount:
           destinations:
           - Authentication: NoAuthentication
-            Name: ui5
+            Name: incident-management-2410-rt
             ProxyType: Internet
             Type: HTTP
-            URL: https://ui5.sap.com
-          - Authentication: NoAuthentication
-            HTML5.DynamicDestination: true
-            HTML5.ForwardAuthToken: true
-            Name: incident-management-2410-srv-api
-            ProxyType: Internet
-            Type: HTTP
-            URL: ~{srv-api/srv-url}
+            URL: https://91fec855trial.launchpad.cfapps.us10.hana.ondemand.com
+            CEP.HTML5contentprovider: true
+          # - Authentication: NoAuthentication
+          #   Name: ui5
+          #   ProxyType: Internet
+          #   Type: HTTP
+          #   URL: https://ui5.sap.com
+          # - Authentication: NoAuthentication
+          #   HTML5.DynamicDestination: true
+          #   HTML5.ForwardAuthToken: true
+          #   Name: incident-management-2410-srv-api
+          #   ProxyType: Internet
+          #   Type: HTTP
+          #   URL: ~{srv-api/srv-url}
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
     service-name: incident-management-2410-destination-service
     service-plan: lite
-  requires:
-  - name: srv-api
+  # requires:
+  # - name: srv-api
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
@@ -137,3 +166,4 @@ build-parameters:
     - npm ci
     - npx cds build --production
     - mkdir -p resources  
+    - cp workzone/cdm.json resources/cdm.json

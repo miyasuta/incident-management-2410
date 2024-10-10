@@ -4,6 +4,7 @@
     "@cap-js/hana": "^1",
     "@sap/cds": "^8",
     "@sap/cds-mtxs": "^2",
+    "@sap/xsenv": "^5.3.0",
     "@sap/xssec": "^4",
     "express": "^4"
   },
@@ -16,7 +17,15 @@
   "cds": {
     "profile": "mtx-sidecar",
     "requires": {
-      "html5-repo": true
+      "html5-repo": {
+        "vcap": {
+          "label": "html5-apps-repo",
+          "plan": "app-host"
+        },
+        "subscriptionDependency": {
+          "uaa": "xsappname"
+        }
+      }
     }
   }
 }

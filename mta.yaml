@@ -109,6 +109,8 @@ modules:
       - name: incident-management-2410-auth
       - name: incident-management-2410-registry
       - name: incident-management-2410-db
+      - name: incident-management-2410-html5-repo-host
+      - name: incident-management-2410-html5-repo-runtime
 resources:
   - name: incident-management-2410-html5-repo-host
     type: org.cloudfoundry.managed-service
@@ -195,6 +197,6 @@ build-parameters:
     - builder: custom
       commands:
         - npm ci
-        - npx cds build --production
         - mkdir -p resources
         - cp workzone/cdm.json resources/cdm.json
+        - npx cds build --production

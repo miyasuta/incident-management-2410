@@ -17,7 +17,7 @@
   "cds": {
     "profile": "mtx-sidecar",
     "requires": {
-      "html5-repo": {
+      "html5-host": {
         "vcap": {
           "label": "html5-apps-repo",
           "plan": "app-host"

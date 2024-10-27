@@ -9,14 +9,16 @@
     "@sap/cds": "^8",
     "express": "^4",
     "@cap-js/hana": "^1",
-    "@sap/xssec": "^4"
+    "@sap/xssec": "^4",
+    "@sap/ams": "latest"
   },
   "devDependencies": {
     "@cap-js/cds-types": "^0.6",
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^8",
     "@sap/ux-specification": "UI5-1.129",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "@sap/ams-dev": "latest"
   },
   "scripts": {
     "start": "cds-serve",
@@ -29,23 +31,20 @@
     "requires": {
       "[development]": {
         "auth": {
+          "ams" : {
+          "autoCompile" : true,
+          "cache" : {
+                "TTL" : 0
+            }
+          },
           "kind": "mocked",
           "users": {
-            "incident.support@tester.sap.com": {
-              "password": "initial",
-              "roles": [
-                "support"
-              ]
-            },
             "alice": {
-              "roles": [
-                "support"
+              "policies" : [
+                  "cap.support"
               ]
             },
             "bob": {
-              "roles": [
-                "support"
-              ]
             }
           }
         }

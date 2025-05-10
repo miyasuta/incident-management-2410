@@ -65,7 +65,7 @@ modules:
       content:
         subaccount:
           destinations:
-            - Name: incident-management_cdm
+            - Name: incident-management-2410_cdm
               ServiceInstanceName: incident-management-2410-html5-repo-runtime
               ServiceKeyName: incident-management-2410-html5-repo-runtime-key
               URL: https://html5-apps-repo-rt.cfapps.us10.hana.ondemand.com/applications/cdm/incidents
@@ -143,7 +143,7 @@ resources:
                 Name: incident-management-2410-rt
                 ProxyType: Internet
                 Type: HTTP
-                URL: https://91fec855trial.launchpad.cfapps.us10.hana.ondemand.com
+                URL: https://1e172ddctrial.launchpad.cfapps.us10.hana.ondemand.com
                 CEP.HTML5contentprovider: true
               # - Authentication: NoAuthentication
               #   Name: ui5
